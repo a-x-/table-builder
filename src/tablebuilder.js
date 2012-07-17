@@ -39,9 +39,17 @@
    * Util object
    *
    * @param object opts
-   * any attributes that should be added to the <table> tag, ie:
-   * { 'class' : 'table-striped', 'cellspacing' : 7 }
+   * example data of options object:
    *
+   *  {
+   *    attributes : {
+   *      'class' : 'table table-striped',
+   *      'cellpadding' : 8  
+   *    }
+   *  }
+   *
+   * strutured this way so we can more easily add other options in the future without
+   * breaking existing implementations
    */
   function tableBuilder(opts) {
     this.opts     = opts;
@@ -57,12 +65,14 @@
   tableBuilder.prototype.write = function() {
     var guts  = this.thead + this.tbody;
     
+    // table is already built and the user is requesting it again
     if(this.table)
       return this.table;  
 
+
     if( this.opts.hasOwnProperty('attributes') ) {
       this.opts.attributes.tag = 'table';
-      this.opts.attributes.display = guts;
+      this.opts.attributes.content = guts;
 
       this.table = this._build_tag( this.opts.attributes );
     }   
@@ -80,7 +90,7 @@
     // build body
     this.tbody = this._build_body(this._prepare_data(data));
 
-    console.log(this.tbody);
+    return this;
   }
 
   tableBuilder.prototype._build_body = function(rowdata) {
@@ -108,7 +118,7 @@
       return celldata;
 
     // going to cheat a little here and use jQuery to build this out
-    var display = celldata.display
+    var content = celldata.content
       , tag = celldata.tag
       , data;
 
@@ -116,13 +126,13 @@
   }
 
   tableBuilder.prototype._build_tag = function(c) {
-    return this._build_open_tag(c) + c.display + this._build_close_tag(c.tag);
+    return this._build_open_tag(c) + c.content + this._build_close_tag(c.tag);
   }
   tableBuilder.prototype._build_open_tag = function(c) {
     var attribs = [], tag = "<" + c.tag ;
 
     for( var key in c ) {
-      if( c.hasOwnProperty(key) && key !== 'tag' && key !== 'display' ) {
+      if( c.hasOwnProperty(key) && key !== 'tag' && key !== 'content' ) {
         attribs.push( key + "='" + c[key] + "'" );
       }
     }
