@@ -179,3 +179,6 @@
     }
     return spool._wrap('tr')._wrap('thead');
   }
+
+
+// tablebuilder.js - erik@pixeloution.com
