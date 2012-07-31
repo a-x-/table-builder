@@ -22,10 +22,10 @@
       return (Object.prototype.toString.call(a) === '[object Array]' || a === null) ? false : typeof(a) == 'object';    
     },
     _is_string : function(a) {
-      return toString.call(a) == '[object String]';
+      return Object.prototype.toString.call(a) == '[object String]';
     },
     _is_number : function(a) {
-      return toString.call(a) == '[object Number]';
+      return Object.prototype.toString.call(a) == '[object Number]';
     },  
     _exit : function(msg) {
       window.console && console.error( msg ); 
