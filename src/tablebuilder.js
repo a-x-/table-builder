@@ -133,7 +133,7 @@
 
     for( var key in c ) {
       if( c.hasOwnProperty(key) && key !== 'tag' && key !== 'content' ) {
-        attribs.push( key + "='" + c[key] + "'" );
+        attribs.push( key + "='" + this._htmlEncode(c[key]) + "'" );
       }
     }
 
@@ -181,5 +181,12 @@
     return spool._wrap('tr')._wrap('thead');
   }
 
+  tableBuilder.prototype._htmlEncode = function(value) {
+    if (value) {
+      return jQuery('<div />').text(value).html().replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    } else {
+      return '';
+    }
+  }
 
 // tablebuilder.js - erik@pixeloution.com
