@@ -17,11 +17,11 @@ Attributes are arbitrary and are not validated, only the `tag` and `content` key
 
 ```json
 { 
-  headers : { 'name':'User name', 'age': 'User age', 'homepage': 'Homepage' },
-  data    : [
-    { name:'Larry Wall', age:57, 'http://www.wall.org/~larry/' },
-    { name:'Bill Gates', age:56, 'http://www.microsoft.com' },
-    { name:'Daffy Duck', age:75, null }
+  "headers" : { "name" : "User name", "age": "User age", "link": "Homepage" },
+  "data"   : [
+    { "name":"Larry Wall", "age":57, "link": "http://www.wall.org/~larry/" },
+    { "name":"Bill Gates", "age":56, "link": "http://www.microsoft.com" },
+    { "name":"Daffy Duck", "age":75, "link": null }
   ]
 }
 ```
