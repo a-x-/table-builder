@@ -25,10 +25,13 @@ Planned: cells data may be modify with callback-filters (instead of json tag des
 ## Using
 
 ```javascript
+var json = "..."; // see above data section
 var TableFabric = require('tablebuilder');
 console.log(
     (new TableFabric({class: 'some-table'}))
-        .build(json) // see above
+        .build({"headers" : { "name" : "User name", "age": "User age", "link": "Homepage" },
+          "data":json
+        })
         .write()
 );
 ```
