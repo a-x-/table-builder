@@ -38,18 +38,18 @@ Rendered as:
 <table class='some-table'>
   <thead>
     <tr>
-      <th>User name</th>      <th>User age</th>      <th>Homepage</th>
+      <th>User name</th> <th>User age</th> <th>Homepage</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>Larry Wall</td>      <td>57</td>      <td>http://www.wall.org/~larry/</td>
+      <td>Larry Wall</td> <td>57</td>       <td>http://www.wall.org/~larry/</td>
     </tr>
     <tr>
-      <td>Bill Gates</td>      <td>56</td>      <td>http://www.microsoft.com</td>
+      <td>Bill Gates</td> <td>56</td>       <td>http://www.microsoft.com</td>
     </tr>
     <tr>
-      <td>Daffy Duck</td>      <td>75</td>      <td></td>
+      <td>Daffy Duck</td> <td>75</td>       <td></td>
     </tr>
   </tbody>
 </table>
