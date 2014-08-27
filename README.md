@@ -18,7 +18,7 @@ Planned: cells data may be modify with callback-filters (instead of json tag des
   "data"   : [
     { "name":"Larry Wall", "age":57, "link": "http://www.wall.org/~larry/" },
     { "name":"Bill Gates", "age":56, "link": "http://www.microsoft.com" },
-    { "name":"Daffy Duck", "age":75, "link": null }
+    { "name":"Daffy Duck", "age":75, "link": "" }
   ]
 }
 ```
@@ -27,10 +27,32 @@ Planned: cells data may be modify with callback-filters (instead of json tag des
 ```javascript
 var TableFabric = require('tablebuilder');
 console.log(
-    (new TableFabric({'class': 'transact-table'}))
+    (new TableFabric({class: 'some-table'}))
         .build(json) // see above
         .write()
 );
+```
+
+Rendered as:
+```html
+<table class='some-table'>
+  <thead>
+    <tr>
+      <th>User name</th>      <th>User age</th>      <th>Homepage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Larry Wall</td>      <td>57</td>      <td>http://www.wall.org/~larry/</td>
+    </tr>
+    <tr>
+      <td>Bill Gates</td>      <td>56</td>      <td>http://www.microsoft.com</td>
+    </tr>
+    <tr>
+      <td>Daffy Duck</td>      <td>75</td>      <td></td>
+    </tr>
+  </tbody>
+</table>
 ```
 
 ##TODO
