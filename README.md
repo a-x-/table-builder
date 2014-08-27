@@ -3,6 +3,10 @@ tableBuilder
 
 Create HTML tables from a specific Javascript object structure.
 
+**Work in progress**
+
+Since original project changed json scheme.
+
 ## Example Data
 
 In the data array, each array represents one row, while and object within the row array represents data to
@@ -11,11 +15,16 @@ the href attribute.
 
 Attributes are arbitrary and are not validated, only the `tag` and `content` keys have special meaning.
 
-    { 
-      headers : [ 'name', 'age', 'homepage' ],
-      data    : [
-        [ 'Larry Wall', 57, { tag : 'a', content : 'Homepage', href : 'http://www.wall.org/~larry/' } ],
-        [ 'Bill Gates', 56, { tag : 'a', content : 'Homepage', href : 'http://www.microsoft.com' } ],
-        [ 'Daffy Duck', 75, 'No Homepage' ]
-      ]
-    }
+```json
+{ 
+  headers : { 'name':'User name', 'age': 'User age', 'homepage': 'Homepage' },
+  data    : [
+    { name:'Larry Wall', age:57, 'http://www.wall.org/~larry/' },
+    { name:'Bill Gates', age:56, 'http://www.microsoft.com' },
+    { name:'Daffy Duck', age:75, null }
+  ]
+}
+```
+    
+##TODO
+* Add field filters (callbacks-preprocessors for specified fields).
