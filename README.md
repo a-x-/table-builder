@@ -28,10 +28,8 @@ Planned: cells data may be modify with callback-filters (instead of json tag des
 var json = "..."; // see above data section
 var TableFabric = require('tablebuilder');
 console.log(
-    (new TableFabric({class: 'some-table'}))
-        .build({"headers" : { "name" : "User name", "age": "User age", "link": "Homepage" },
-          "data":json
-        })
+    (new TableFabric({'class': 'transact-table'}))
+        .build(headers, data) // see above
         .write()
 );
 ```
