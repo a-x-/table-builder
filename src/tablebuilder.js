@@ -61,7 +61,10 @@ module.exports = (function () {
             return (value || '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         },
 
-        buildBody: function (rowsCollection, cellsOrder) {
+        buildBody: function (rowsCollection, headers) {
+            var cellsOrder = $o(headers).map(function (headerContent, headerKey) {
+                return headerKey;
+            });
             return $s(rowsCollection
                 .map(function (row) {
                     return $s(cellsOrder
@@ -80,12 +83,10 @@ module.exports = (function () {
          * for each item of the array
          *
          * @param headers array
-         * @param cellsOrder
          */
-        buildHeaders: function (headers, cellsOrder) {
+        buildHeaders: function (headers) {
             return $s($o(headers).map(
                 function (headerContent, headerKey) {
-                    cellsOrder.push(headerKey);
                     return $s(headerContent).wrapTagOnce('th');
                 }
             ).join(''))
@@ -227,8 +228,8 @@ module.exports = (function () {
         if (!statics.isDataCorrect(data)) {
             util.exit('invalid format - obj.data expected to be empty, or an array of arrays.');
         }
-        this.thead = statics.buildHeaders(headers, this.cellsOrder);
-        this.tbody = statics.buildBody(data, this.cellsOrder);
+        this.thead = statics.buildHeaders(headers);
+        this.tbody = statics.buildBody(data, headers);
         return this;
     };
 
