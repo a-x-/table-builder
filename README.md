@@ -94,6 +94,7 @@ Look [package.json](/package.json) for actual list.
 * Bring the list.js features. Can it make tables?
 * Table footer total block generator (`setTotal`).
 * Grouping util (`setGroupBy`).
+* Show replacer block if data set is empty
 
 ## Licence
 All licensed under MIT
