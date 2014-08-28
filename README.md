@@ -16,8 +16,8 @@ Planned: cells data may be modify with callback-filters (instead of json tag des
 {
   "headers" : { "name" : "User name", "age": "User age", "link": "Homepage" },
   "data"   : [
-    { "name":"Larry Wall", "age":57, "link": "http://www.wall.org/~larry/" },
-    { "name":"Bill Gates", "age":56, "link": "http://www.microsoft.com" },
+    { "name":"Larry Wall", "age":57, "link": "<a href='http://www.wall.org/~larry/'>www.wall.org/~larry/</a>" },
+    { "name":"Bill Gates", "age":56, "link": "<a href='http://www.microsoft.com'>www.microsoft.com</a>" },
     { "name":"Daffy Duck", "age":75, "link": "" }
   ]
 }
@@ -28,7 +28,7 @@ Planned: cells data may be modify with callback-filters (instead of json tag des
 var json = "..."; // see above data section
 var TableFabric = require('tablebuilder');
 console.log(
-    (new TableFabric({'class': 'transact-table'}))
+    (new TableFabric({'class': 'some-table'}))
         .build(headers, data) // see above
         .write()
 );
@@ -37,20 +37,22 @@ console.log(
 Rendered as:
 ```html
 <table class='some-table'>
-  <thead>
-    <tr>
-      <th>User name</th> <th>User age</th> <th>Homepage</th>
-    </tr>
-  </thead>
+  <thead> <tr> <th>User name</th> <th>User age</th> <th>Homepage</th> </tr> </thead>
   <tbody>
     <tr>
-      <td>Larry Wall</td> <td>57</td>       <td>http://www.wall.org/~larry/</td>
+      <td class="name-td">Larry Wall</td>
+      <td class="age-td">57</td>
+      <td class="link-td"><a href="http://www.wall.org/~larry/">www.wall.org/~larry/</a></td>
     </tr>
     <tr>
-      <td>Bill Gates</td> <td>56</td>       <td>http://www.microsoft.com</td>
+      <td class="name-td">Bill Gates</td>
+      <td class="age-td">56</td>
+      <td class="link-td"><a href="http://www.microsoft.com">www.microsoft.com</a></td>
     </tr>
     <tr>
-      <td>Daffy Duck</td> <td>75</td>       <td></td>
+      <td class="name-td">Daffy Duck</td>
+      <td class="age-td">75</td>
+      <td class="link-td">N/A</td>
     </tr>
   </tbody>
 </table>
@@ -60,13 +62,13 @@ Rendered as:
 Field filters is callbacks-preprocessors for specified fields.
 
 ```javascript
-var data = [
+var data = [ // Look the previous case differences: link format changed and name splitted into firstname and surname
     { "firstname":"Larry", "surname":"Wall", "age":57, "link": "www.wall.org/~larry/" },
     { "firstname":"Bill", "surname":"Gates", "age":56, "link": "www.microsoft.com" },
     { "firstname":"Daffy", "surname":"Duck", "age":75, "link": "" }
 ];
 
-(new TableFabric({'class': 'transact-table'}))
+(new TableFabric({'class': 'some-table'}))
     .setFilter('link', function (cellData) {
         return cellData && '<a href="http://'+cellData+'">'+cellData+'</a>' || 'N/A';
     })
@@ -74,8 +76,10 @@ var data = [
         return row.surname + ' ' + row.firstname;
     })
     .build(
-        { "name" : "User name", "age": "User age", "link": "Homepage" },
+        { "name": "User name", "age": "User age", "link": "Homepage" },
         data
      )
     .write()
 ```
+
+Render output is equal the previous case.
