@@ -91,6 +91,7 @@ Look [package.json](/package.json) for actual list.
 
 ## TODO
 * Check browsers support
+* Bring the list.js features. Can it make tables?
 
 ## Licence
 All licensed under MIT
