@@ -22,7 +22,7 @@ Planned: cells data may be modify with callback-filters (instead of json tag des
   ]
 }
 ```
-## Using
+## Getting Started
 
 ```javascript
 var json = "..."; // see above data section
@@ -56,5 +56,26 @@ Rendered as:
 </table>
 ```
 
-##TODO
-* Add field filters (callbacks-preprocessors for specified fields).
+## Filters
+Field filters is callbacks-preprocessors for specified fields.
+
+```javascript
+var data = [
+    { "firstname":"Larry", "surname":"Wall", "age":57, "link": "www.wall.org/~larry/" },
+    { "firstname":"Bill", "surname":"Gates", "age":56, "link": "www.microsoft.com" },
+    { "firstname":"Daffy", "surname":"Duck", "age":75, "link": "" }
+];
+
+(new TableFabric({'class': 'transact-table'}))
+    .setFilter('link', function (cellData) {
+        return cellData && '<a href="http://'+cellData+'">'+cellData+'</a>' || 'N/A';
+    })
+    .setFilter('name', function (cellData, row) {
+        return row.surname + ' ' + row.firstname;
+    })
+    .build(
+        { "name" : "User name", "age": "User age", "link": "Homepage" },
+        data
+     )
+    .write()
+```

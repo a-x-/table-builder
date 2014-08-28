@@ -21,7 +21,7 @@ module.exports = (function () {
     };
 
     statics = {
-        buildTag: function (attributes, tag, content) {
+        buildTag: function (tag, attributes, content) {
             return statics.buildOpenTag(attributes, tag) + content + statics.buildCloseTag(tag);
         },
 
@@ -61,17 +61,21 @@ module.exports = (function () {
             return (value || '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         },
 
-        buildBody: function (rowsCollection, headers) {
-            var cellsOrder = $o(headers).map(function (headerContent, headerKey) {
-                return headerKey;
-            });
+        buildBody: function (rowsCollection, headers, filters) {
             return $s(rowsCollection
                 .map(function (row) {
-                    return $s(cellsOrder
-                        .map(function (cellName) {
-                            return $s(statics.buildData(row[cellName])).wrapTagOnce('td');
-                        })
-                        .join(''))
+                    return $s(
+                        $o(headers)
+                            .map(function (val, key) { return key; }) // cells names order array
+                            .map(function (cellName) {
+                                return statics.buildTag('td', {'class': cellName + '-td'}, statics.buildData(
+                                    (filters[cellName] || function (val) {
+                                        return val;
+                                    })(row[cellName], row) // row[cellName]'s undefined value is normal case!
+                                ));
+                            })
+                            .join('')
+                    )
                         .wrapTagOnce('tr');
                 })
                 .join("\n"))
@@ -92,7 +96,7 @@ module.exports = (function () {
             ).join(''))
                 .wrapTag('tr')
                 .wrapTag('thead')
-                .v;
+                .v; // get the string instead of my $s string wrapper
         }
     };
 
@@ -197,18 +201,38 @@ module.exports = (function () {
      *      'data-payload' : '#qw-312'
      *  }
      *
-     * strutured this way so we can more easily add other options in the future without
+     * structured this way so we can more easily add other options in the future without
      * breaking existing implementations
      */
     TableBuilder = function (attributes) {
         this.attributes = attributes;
         this.headers = null;
         this.tableHtml = null;
-        this.cellsOrder = [];
+        this.filters = {}; // callback filters collection
+    };
+
+    TableBuilder.prototype.setFilter = function (name, fn) {
+        this.filters[name] = fn;
+        return this;
     };
 
     /**
-     * outputs the built table
+     * Build the table by specified data
+     * @param headers
+     * @param data
+     * @return {TableBuilder}
+     */
+    TableBuilder.prototype.build = function (headers, data) {
+        if (!statics.isDataCorrect(data)) {
+            util.exit('invalid format - obj.data expected to be empty, or an array of arrays.');
+        }
+        this.thead = statics.buildHeaders(headers);
+        this.tbody = statics.buildBody(data, headers, this.filters);
+        return this;
+    };
+
+    /**
+     * Output the built table
      *
      * @return string
      */
@@ -220,19 +244,9 @@ module.exports = (function () {
             return this.tableHtml;
         }
 
-        this.tableHtml = statics.buildTag(this.attributes, 'table', guts);
+        this.tableHtml = statics.buildTag('table', this.attributes, guts);
         return this.tableHtml;
     };
-
-    TableBuilder.prototype.build = function (headers, data) {
-        if (!statics.isDataCorrect(data)) {
-            util.exit('invalid format - obj.data expected to be empty, or an array of arrays.');
-        }
-        this.thead = statics.buildHeaders(headers);
-        this.tbody = statics.buildBody(data, headers);
-        return this;
-    };
-
     return TableBuilder;
 // tablebuilder.js - erik@pixeloution.com
 }());
