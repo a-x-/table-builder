@@ -90,5 +90,8 @@ Render output is equal the previous case.
 
 Look [package.json](/package.json) for actual list.
 
+## TODO
+* Check browsers support
+
 ## Licence
 All licensed under MIT
