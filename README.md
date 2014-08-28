@@ -23,6 +23,7 @@ Planned: cells data may be modify with callback-filters (instead of json tag des
 }
 ```
 ## Getting Started
+It works on the Node.js v0.10.24, but i hope that [browserify](//github.com/substack/node-browserify) make in working under any browser.
 
 ```javascript
 var json = "..."; // see above data section
