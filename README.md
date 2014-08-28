@@ -90,10 +90,10 @@ Render output is equal the previous case.
 Look [package.json](/package.json) for actual list.
 
 ## TODO
-* Check browsers support.
+* Check browsers support ability.
 * Bring the list.js features. Can it make tables?
-* Table footer total block generator.
-* Grouping util.
+* Table footer total block generator (`setTotal`).
+* Grouping util (`setGroupBy`).
 
 ## Licence
 All licensed under MIT
