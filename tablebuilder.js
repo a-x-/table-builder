@@ -51,7 +51,7 @@ module.exports = (function () {
             return data instanceof Array && (data.length === 0 || util.is_object(data[0]));
         },
 
-        buildData: function (celldata) {
+        checkData: function (celldata) {
             // we only accept strings, or numbers as arguments
             if (!util.is_string(celldata) && !util.is_number(celldata)) {
                 util.exit('each item in a row should be either a string, number');
@@ -70,7 +70,7 @@ module.exports = (function () {
                         $(headers)
                             .keys() // cells names order array
                             .map(function (cellName) {
-                                return statics.buildTag('td', {'class': cellName + '-td'}, statics.buildData(
+                                return statics.buildTag('td', {'class': cellName.replace('_', '-') + '-td'}, statics.checkData(
                                     (filters[cellName] || function (val) {
                                         return val;
                                     })(row[cellName], row) // row[cellName]'s undefined value is normal case!
@@ -93,7 +93,7 @@ module.exports = (function () {
         buildHeaders: function (headers) {
             return $s($(headers).map(
                 function (headerContent, headerKey) {
-                    return $s(headerContent).wrapTagOnce('th');
+                    return statics.buildTag('th', {'class': headerKey.replace('_', '-') + '-th'}, headerContent);
                 }
             ).join(''))
                 .wrapTag('tr')
@@ -170,11 +170,17 @@ module.exports = (function () {
         this.headers = null;
         this.data = null;
         this.tableHtml = null;
-        this.filters = {}; // callback filters collection
+        this.filters = {}; // callback pre-processor collection
+        this.totals = {}; // callback footer total record processors collections
     };
 
     TableBuilder.prototype.setFilter = function (name, fn) {
         this.filters[name] = fn;
+        return this;
+    };
+
+    TableBuilder.prototype.setTotal = function (name, fn) {
+        this.totals[name] = fn;
         return this;
     };
 
@@ -209,7 +215,8 @@ module.exports = (function () {
      * @return string
      */
     TableBuilder.prototype.render = function () {
-        var guts = this.thead + this.tbody;
+//        this.tfoot = statics.buildFooter();
+        var guts = this.thead + this.tbody;// + this.tfoot;
 
         // table is already built and the user is requesting it again
         if (this.tableHtml) {
