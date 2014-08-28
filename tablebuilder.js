@@ -18,8 +18,7 @@ module.exports = (function () {
             return Object.prototype.toString.call(a) === '[object Number]';
         },
         exit: function (msg) {
-            console.error(msg);
-            throw "[ERROR]";
+            throw msg;
         }
     };
 
@@ -169,6 +168,7 @@ module.exports = (function () {
     TableBuilder = function (attributes) {
         this.attributes = attributes;
         this.headers = null;
+        this.data = null;
         this.tableHtml = null;
         this.filters = {}; // callback filters collection
     };
@@ -179,17 +179,27 @@ module.exports = (function () {
     };
 
     /**
-     * Build the table by specified data
      * @param headers
+     * @return {TableBuilder}
+     */
+    TableBuilder.prototype.setHeaders = function (headers) {
+        this.headers = headers;
+        this.thead = statics.buildHeaders(headers);
+        return this;
+    };
+
+    /**
      * @param data
      * @return {TableBuilder}
      */
-    TableBuilder.prototype.build = function (headers, data) {
+    TableBuilder.prototype.setData = function (data) {
         if (!statics.isDataCorrect(data)) {
-            util.exit('invalid format - obj.data expected to be empty, or an array of arrays.');
+            util.exit('invalid format - data expected to be empty, or an array of arrays.');
         }
-        this.thead = statics.buildHeaders(headers);
-        this.tbody = statics.buildBody(data, headers, this.filters);
+        if (!this.headers) {
+            util.exit('invalid format - headers expected to be not empty.');
+        }
+        this.tbody = statics.buildBody(data, this.headers, this.filters);
         return this;
     };
 
@@ -198,7 +208,7 @@ module.exports = (function () {
      *
      * @return string
      */
-    TableBuilder.prototype.write = function () {
+    TableBuilder.prototype.render = function () {
         var guts = this.thead + this.tbody;
 
         // table is already built and the user is requesting it again

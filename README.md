@@ -30,8 +30,9 @@ var json = "..."; // see above data section
 var TableFabric = require('tablebuilder');
 console.log(
     (new TableFabric({'class': 'some-table'}))
-        .build(headers, data) // see above
-        .write()
+        .setHeaders(headers) // see above json headers section
+        .setData(data) // see above json data section
+        .render()
 );
 ```
 
@@ -76,11 +77,9 @@ var data = [ // Look the previous case differences: link format changed and name
     .setFilter('name', function (cellData, row) {
         return row.surname + ' ' + row.firstname;
     })
-    .build(
-        { "name": "User name", "age": "User age", "link": "Homepage" },
-        data
-     )
-    .write()
+    .setHeaders({ "name": "User name", "age": "User age", "link": "Homepage" })
+    .setData(data)
+    .render()
 ```
 
 Render output is equal the previous case.
