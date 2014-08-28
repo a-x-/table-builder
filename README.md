@@ -83,3 +83,11 @@ var data = [ // Look the previous case differences: link format changed and name
 ```
 
 Render output is equal the previous case.
+
+## Dependencies
+* Lo-Dash.
+
+Look [package.json](/package.json) for actual list.
+
+## Licence
+All licensed under MIT

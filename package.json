@@ -1,0 +1,29 @@
+{
+  "name": "tableBuilder",
+  "version": "0.1.0",
+  "description": "Create HTML tables from a specific usable JSON structure",
+  "main": "tablebuilder.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/a-x-/tableBuilder.git"
+  },
+  "keywords": [
+    "html",
+    "builder",
+    "json",
+    "table",
+    "list"
+  ],
+  "author": "Invntrm",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/a-x-/tableBuilder/issues"
+  },
+  "homepage": "https://github.com/a-x-/tableBuilder",
+  "dependencies": {
+    "lodash": "~2.4.1"
+  }
+}

@@ -1,5 +1,8 @@
 module.exports = (function () {
-    var util, statics, TableBuilder, $o, $s;
+    var
+        _ = require('lodash'),
+        $ = _.chain;
+    var util, statics, TableBuilder;
     /**
      * utility functions wrapped in an object for namespacing
      */
@@ -28,7 +31,7 @@ module.exports = (function () {
         buildOpenTag: function (attributes, tag) {
             return $s('<{1} {2}>').format(
                 tag,
-                $o(attributes).map(function (val, key) {
+                $(attributes).map(function (val, key) {
                     return $s("{1}='{2}'").format(key, statics.htmlEncode(val));
                 }).join(' ')
             );
@@ -65,8 +68,8 @@ module.exports = (function () {
             return $s(rowsCollection
                 .map(function (row) {
                     return $s(
-                        $o(headers)
-                            .map(function (val, key) { return key; }) // cells names order array
+                        $(headers)
+                            .keys() // cells names order array
                             .map(function (cellName) {
                                 return statics.buildTag('td', {'class': cellName + '-td'}, statics.buildData(
                                     (filters[cellName] || function (val) {
@@ -89,7 +92,7 @@ module.exports = (function () {
          * @param headers array
          */
         buildHeaders: function (headers) {
-            return $s($o(headers).map(
+            return $s($(headers).map(
                 function (headerContent, headerKey) {
                     return $s(headerContent).wrapTagOnce('th');
                 }
@@ -100,49 +103,8 @@ module.exports = (function () {
         }
     };
 
-    $o = (function () {
-        /**
-         * $o(object) wrapper
-         * @example $o({a:1,b:2}).each(function(el,prop,obj){console.log(el,prop);}); // --> a 1\n b 2
-         * @constructor
-         */
-        var objectProxy = function (o) {
-            this.obj = o;
-            this.each = function (fn) {
-                var index;
-                for (index in this.obj) if (this.obj.hasOwnProperty(index)) {
-                    fn(this.obj[index], index, this.obj);
-                }
-                return this;
-            }.bind(this);
-            this.map = function (fn) {
-                var array = [];
-                this.each(function (val, key) {
-                    array.push(fn(val, key, this.obj));
-                }.bind(this));
-                return array;
-            }.bind(this);
-            this.copy = function () {
-                return Object.create(this.obj);
-            }.bind(this);
-            this.copyDeep = function clone() {
-                var obj = this.obj;
-                if (obj === null || typeof(obj) !== 'object') {
-                    return obj;
-                }
-                var temp = obj.constructor(); // changed
-                this.each(function (el, key) {
-                    temp[key] = $o(obj[key]).copyDeep();
-                });
-                return temp;
-            }.bind(this);
-            // put another methods here ...
-        };
-        return function (o) {
-            return new objectProxy(o);
-        };
-    }());
-
+    //
+    // String wrapper
     $s = (function () {
         var stringProxy = function (s) {
             var self = this;
@@ -155,7 +117,7 @@ module.exports = (function () {
             this.replace = function (pattern, /*=*/replacement) {
                 var strNew = self.v;
                 if (pattern instanceof Object) {
-                    $o(pattern).each(function (replacement, pattern) {
+                    $(pattern).forEach(function (replacement, pattern) {
                         strNew = strNew.replace(pattern, replacement);
                     });
                 }
