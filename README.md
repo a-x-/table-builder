@@ -3,7 +3,7 @@ tableBuilder
 
 Create HTML tables from a specific Javascript object structure.
 
-**Since original project changed json scheme.**
+**Since original project 1) changed json scheme and 2) added some new features.**
 
 ## Example Data
 
