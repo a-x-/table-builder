@@ -92,6 +92,7 @@ Look [package.json](/package.json) for actual list.
 ## TODO
 * Check browsers support
 * Bring the list.js features. Can it make tables?
+* Table footer total block generator
 
 ## Licence
 All licensed under MIT
