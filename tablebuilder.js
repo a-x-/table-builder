@@ -2,6 +2,37 @@ module.exports = (function () {
     var
         _ = require('lodash'),
         $ = _.chain;
+
+    _.mixin({
+        /**
+         * @Examples
+         * [[[1]]] -> 1
+         * [[[[]]]] -> undefined
+         * [[[],[],[[[1]]]]] -> 1
+         * [[[],[],[]]] -> undefined
+         */
+        flattenExtra: function (collection) {
+            var flatten = _.flatten(collection);
+            return _.isArray(flatten) && flatten.length <= 1 ? flatten[0] : flatten;
+        },
+        /**
+         * Return Element under lodashWrapper for further chaining
+         * Also process collections more truly at all:
+         * (1,'~{el}~') -> '~1~'
+         */
+        wrapChain: function (element, callback) {
+            return _.wrap(
+                _.isFunction(callback) ? callback : function (el) {
+                    return _.template(callback, {el: el}, {interpolate: /{([\S]+?)}/g});
+                },
+                function (callback, text) {
+                    return callback(text);
+                }
+            )(element)
+                .valueOf();
+        }
+    });
+
     var util, statics, TableBuilder;
     /**
      * utility functions wrapped in an object for namespacing
@@ -51,37 +82,47 @@ module.exports = (function () {
             return data instanceof Array && (data.length === 0 || util.is_object(data[0]));
         },
 
-        checkData: function (celldata) {
+        isCellValCorrect: function (celldata) {
             // we only accept strings, or numbers as arguments
-            if (!util.is_string(celldata) && !util.is_number(celldata)) {
-                util.exit('each item in a row should be either a string, number');
-            }
-            return celldata;
+            return (util.is_string(celldata) && !util.is_number(celldata));
+        },
+
+        prismData: function (rowsCollection, headers, prisms) {
+            return rowsCollection
+                .map(function (row) {
+                    return $(headers)
+                        .mapValues(function (headerTitle, columnName) {
+                            var cellValue = (prisms[columnName] || _.identity)(row[columnName], row);
+//                            if(!statics.isCellValCorrect(cellValue.presentation)){
+//                                util.exit('each item in a row should be either a string, number')
+//                            }
+                            return _.isPlainObject(cellValue) ? cellValue : {presentation: cellValue, raw: row[columnName]};
+                        })
+                        .valueOf();
+                })
+                .valueOf();
         },
 
         htmlEncode: function (value) {
             return (value || '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         },
 
-        buildBody: function (rowsCollection, headers, filters) {
-            return $s(rowsCollection
+        buildBody: function (rowsCollection) {
+            return $(rowsCollection)
                 .map(function (row) {
-                    return $s(
-                        $(headers)
-                            .keys() // cells names order array
-                            .map(function (cellName) {
-                                return statics.buildTag('td', {'class': cellName.replace('_', '-') + '-td'}, statics.checkData(
-                                    (filters[cellName] || function (val) {
-                                        return val;
-                                    })(row[cellName], row) // row[cellName]'s undefined value is normal case!
-                                ));
-                            })
-                            .join('')
-                    )
-                        .wrapTagOnce('tr');
+                    return $(row).mapValues(function (cellValue, columnName) {
+                        return _.wrapChain(cellValue.presentation, function (cellValue) {
+                            return statics.buildTag('td', {'class': columnName.replace('_', '-') + '-td'}, cellValue);
+                        });
+                    })
+                        .toArray()
+                        .join('')
+                        .valueOf();
                 })
-                .join("\n"))
-                .wrapTagOnce('tbody');
+                .map(function (tr) { return _.wrapChain(tr, statics.buildTag.bind(this, 'tr', {})); })
+                .join('\n')
+                .wrapChain(statics.buildTag.bind(this, 'tbody', {}))
+                .valueOf();
         },
 
         /**
@@ -99,6 +140,26 @@ module.exports = (function () {
                 .wrapTag('tr')
                 .wrapTag('thead')
                 .v; // get the string instead of my $s string wrapper
+        },
+
+        /**
+         *
+         */
+        buildFooter: function (headers, rowsCollection, totals) {
+            return $(headers)
+                .keys() // cells names order array
+//                .filter(function (columnName) { return !!totals[columnName]; })
+                .map(function (columnName) {
+                    var columnCellsCollection = _(rowsCollection).pluck(columnName).pluck('raw').valueOf();
+                    return (totals[columnName] || function () { return ''; })(columnCellsCollection, rowsCollection);
+                })
+                .map(function (td) {
+                    return _.wrapChain(td, statics.buildTag.bind(this, 'td', {}));
+                })
+                .join('')
+                .wrapChain(statics.buildTag.bind(this, 'tr', {}))
+                .wrapChain(statics.buildTag.bind(this, 'tfoot', {}))
+                .valueOf();
         }
     };
 
@@ -168,14 +229,21 @@ module.exports = (function () {
     TableBuilder = function (attributes) {
         this.attributes = attributes;
         this.headers = null;
-        this.data = null;
+        this.data = [];
         this.tableHtml = null;
-        this.filters = {}; // callback pre-processor collection
+        this.prisms = {}; // callback pre-processor collection
         this.totals = {}; // callback footer total record processors collections
     };
 
-    TableBuilder.prototype.setFilter = function (name, fn) {
-        this.filters[name] = fn;
+    TableBuilder.prototype.setPrism = function (name) {
+        if (typeof arguments[1] === 'string') {
+            var pattern = arguments[1];
+            fn = function (val) { return _.wrapChain(val, pattern); };
+        }
+        else {
+            fn = arguments[1];
+        }
+        this.prisms[name] = fn;
         return this;
     };
 
@@ -205,7 +273,8 @@ module.exports = (function () {
         if (!this.headers) {
             util.exit('invalid format - headers expected to be not empty.');
         }
-        this.tbody = statics.buildBody(data, this.headers, this.filters);
+        this.data = statics.prismData(data, this.headers, this.prisms);
+        this.tbody = statics.buildBody(this.data);
         return this;
     };
 
@@ -215,8 +284,8 @@ module.exports = (function () {
      * @return string
      */
     TableBuilder.prototype.render = function () {
-//        this.tfoot = statics.buildFooter();
-        var guts = this.thead + this.tbody;// + this.tfoot;
+        this.tfoot = statics.buildFooter(this.headers, this.data, this.totals);
+        var guts = this.thead + this.tbody + this.tfoot;
 
         // table is already built and the user is requesting it again
         if (this.tableHtml) {

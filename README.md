@@ -9,7 +9,7 @@ Create HTML tables from a specific Javascript object structure.
 
 In the data array, each object represents one row.
 Cells order in result table set by json headers order. Headers key are equal cells key for coherence reasons.
-Planned: cells data may be modify with callback-filters (instead of json tag descriptors as in original project).
+Planned: cells data may be modify with callback-prisms (instead of json tag descriptors as in original project).
 
 
 ```json
@@ -60,8 +60,8 @@ Rendered as:
 </table>
 ```
 
-## Filters
-Field filters is callbacks-preprocessors for specified fields.
+### Prisms
+Field prisms are callbacks-preprocessors for specified fields.
 
 ```javascript
 var data = [ // Look the previous case differences: link format changed and name splitted into firstname and surname
@@ -71,10 +71,10 @@ var data = [ // Look the previous case differences: link format changed and name
 ];
 
 (new TableFabric({'class': 'some-table'}))
-    .setFilter('link', function (cellData) {
+    .setPrism('link', function (cellData) {
         return cellData && '<a href="http://'+cellData+'">'+cellData+'</a>' || 'N/A';
     })
-    .setFilter('name', function (cellData, row) {
+    .setPrism('name', function (cellData, row) {
         return row.surname + ' ' + row.firstname;
     })
     .setHeaders({ "name": "User name", "age": "User age", "link": "Homepage" })
@@ -83,6 +83,29 @@ var data = [ // Look the previous case differences: link format changed and name
 ```
 
 Render output is equal the previous case.
+
+Also, prism callback may return `{presentation: '...', raw: '...'}` object
+for splitting html wrapped cell values and raw values.
+Raw values using in totals.
+
+### Totals
+The follow code:
+
+```js
+table.setTotal('age', function (columnCellsCollection, rowsCollection) {
+    // Calc average age
+    return Math.round(
+        columnCellsCollection.reduce(function (prev, val) { return +prev + val; }) / columnCellsCollection.length
+    );
+});
+```
+
+... add `tfoot` in the table with average age:
+```html
+<tfoot><tr><td></td><td></td><td>62</td></tr></tfoot>
+```
+
+### Grouping
 
 ## Dependencies
 * Lo-Dash.
