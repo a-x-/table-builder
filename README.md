@@ -86,7 +86,7 @@ Render output is equal the previous case.
 
 Also, prism callback may return `{presentation: '...', raw: '...'}` object
 for splitting html wrapped cell values and raw values.
-For example, raw values uses in totals.
+For example, raw values uses in [totals](#totals).
 
 ### Totals
 The follow code:
@@ -95,7 +95,9 @@ The follow code:
 table.setTotal('age', function (columnCellsCollection, rowsCollection) {
     // Calc average age
     return Math.round(
-        columnCellsCollection.reduce(function (prev, val) { return +prev + val; }) / columnCellsCollection.length
+        columnCellsCollection
+          .reduce(function (prev, val) { return +prev + val; })
+          / columnCellsCollection.length
     );
 });
 ```
