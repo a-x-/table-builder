@@ -86,7 +86,7 @@ Render output is equal the previous case.
 
 Also, prism callback may return `{presentation: '...', raw: '...'}` object
 for splitting html wrapped cell values and raw values.
-Raw values using in totals.
+For example, raw values uses in totals.
 
 ### Totals
 The follow code:
@@ -107,6 +107,8 @@ table.setTotal('age', function (columnCellsCollection, rowsCollection) {
 
 ### Grouping
 
+**todo** Grouping util (`setGroupBy`)...
+
 ## Dependencies
 * Lo-Dash.
 
@@ -115,9 +117,8 @@ Look [package.json](/package.json) for actual list.
 ## TODO
 * Check browsers support ability.
 * Bring the list.js features. Can it make tables?
-* Table footer total block generator (`setTotal`).
 * Grouping util (`setGroupBy`).
-* Show replacer block if data set is empty
+* Show table replacer block if data set (`<tbody>`) is empty
 
 ## Licence
 All licensed under MIT
