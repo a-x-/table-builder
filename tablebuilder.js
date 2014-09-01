@@ -267,6 +267,11 @@ module.exports = (function () {
      * @return {TableBuilder}
      */
     TableBuilder.prototype.setData = function (data) {
+        if (!data || !data.length) {
+            this.data = [];
+            this.tbody = '';
+            return this;
+        }
         if (!statics.isDataCorrect(data)) {
             util.exit('invalid format - data expected to be empty, or an array of arrays.');
         }
@@ -284,6 +289,9 @@ module.exports = (function () {
      * @return string
      */
     TableBuilder.prototype.render = function () {
+        if (!this.data.length) {
+            return '';
+        }
         this.tfoot = statics.buildFooter(this.headers, this.data, this.totals);
         var guts = this.thead + this.tbody + this.tfoot;
 
