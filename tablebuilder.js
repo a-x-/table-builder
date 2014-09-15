@@ -119,7 +119,9 @@ module.exports = (function () {
                         .join('')
                         .valueOf();
                 })
-                .map(function (tr) { return _.wrapChain(tr, statics.buildTag.bind(this, 'tr', {})); })
+                .map(function (tr) {
+                    return _.wrapChain(tr, statics.buildTag.bind(this, 'tr', {}));
+                })
                 .join('\n')
                 .wrapChain(statics.buildTag.bind(this, 'tbody', {}))
                 .valueOf();
@@ -151,7 +153,9 @@ module.exports = (function () {
 //                .filter(function (columnName) { return !!totals[columnName]; })
                 .map(function (columnName) {
                     var columnCellsCollection = _(rowsCollection).pluck(columnName).pluck('raw').valueOf();
-                    return (totals[columnName] || function () { return ''; })(columnCellsCollection, rowsCollection);
+                    return (totals[columnName] || function () {
+                        return '';
+                    })(columnCellsCollection, rowsCollection);
                 })
                 .map(function (td) {
                     return _.wrapChain(td, statics.buildTag.bind(this, 'td', {}));
@@ -238,7 +242,9 @@ module.exports = (function () {
     TableBuilder.prototype.setPrism = function (name) {
         if (typeof arguments[1] === 'string') {
             var pattern = arguments[1];
-            fn = function (val) { return _.wrapChain(val, pattern); };
+            fn = function (val) {
+                return _.wrapChain(val, pattern);
+            };
         }
         else {
             fn = arguments[1];
