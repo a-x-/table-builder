@@ -125,6 +125,15 @@ table
     .render();
 ```
 
+Remove the field (`product_category`) from the table 
+and add separators with the field's values (group names). and referenced items.
+
+Body of the setGroup callback may contains processor of group name. 
+Additionaly processor may use the group's `recordsCount` and `totals` collection for group
+if `setTotal` for whole table have installed.
+
+If callback is not defined then tableBuilder uses group name without processing, as is.
+
 ## Empty data collection
 
 ```js
