@@ -64,7 +64,7 @@ Rendered as:
 </table>
 ```
 
-### Prisms
+#### Prisms
 Field prisms are callbacks-preprocessors for specified fields.
 
 ```javascript
@@ -92,7 +92,7 @@ Also, prism callback may return `{presentation: '...', raw: '...'}` object
 for splitting html wrapped cell values and raw values.
 For example, raw values uses in [totals](#totals).
 
-### Totals
+#### Totals
 The follow code:
 
 ```js
@@ -111,7 +111,7 @@ table.setTotal('age', function (columnCellsCollection, rowsCollection) {
 <tfoot><tr><td></td><td></td><td>62</td></tr></tfoot>
 ```
 
-### Grouping
+#### Grouping
 
 Grouping util (`setGroup`).
 
@@ -125,7 +125,7 @@ table
     .render();
 ```
 
-### Empty data collection
+## Empty data collection
 
 ```js
 // Show table replacer block if data set is empty
@@ -136,7 +136,7 @@ table
     || 'Data collection is empty!';
 ```
 
-### Browsers support
+## Browsers support
 
 Yeah! 
 
@@ -144,7 +144,19 @@ Yeah!
 browserify my-app-using-tableBuilder.js -o bundle.js
 ```
 
-See about [browserify](http://browserify.org).
+See more about [browserify](http://browserify.org).
+
+
+## Similar projects
+
+So, `list.js`. 
+
+— Can it make tables? 
+
+— [Yeah, ut can, but...](https://github.com/javve/list.js/issues/272)
+
+— Ok, my library is more specialised and advanced for tables
+
 
 ## Dependencies
 * Lo-Dash.
@@ -152,7 +164,6 @@ See about [browserify](http://browserify.org).
 Look [package.json](/package.json) for actual list.
 
 ## TODO
-* Bring the list.js features. Can it make tables?
 
 ## Licence
 All licensed under MIT
