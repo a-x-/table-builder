@@ -109,7 +109,38 @@ table.setTotal('age', function (columnCellsCollection, rowsCollection) {
 
 ### Grouping
 
-**todo** Grouping util (`setGroupBy`)...
+Grouping util (`setGroup`).
+
+```js
+// ...
+table
+    .setGroup('product_category', function (value, recordsCount, totals) {
+        // ...
+    })
+    // ...
+    .render();
+```
+
+### Empty data collection
+
+```js
+// Show table replacer block if data set is empty
+// ...
+table
+    // ...
+    .render() 
+    || 'Data collection is empty!';
+```
+
+### Browsers support
+
+Yeah! 
+
+```sh
+browserify my-app-using-tableBuilder.js -o bundle.js
+```
+
+See about [browserify](http://browserify.org).
 
 ## Dependencies
 * Lo-Dash.
@@ -117,10 +148,7 @@ table.setTotal('age', function (columnCellsCollection, rowsCollection) {
 Look [package.json](/package.json) for actual list.
 
 ## TODO
-* Check browsers support ability.
 * Bring the list.js features. Can it make tables?
-* Grouping util (`setGroupBy`).
-* Show table replacer block if data set (`<tbody>`) is empty
 
 ## Licence
 All licensed under MIT
