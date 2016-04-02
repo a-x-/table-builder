@@ -157,4 +157,5 @@ So, `list.js`.
 — Ok, my library is more specialised and advanced for tables
 
 ## TODO
-- unit tests
+- Unit tests
+- Escaping
