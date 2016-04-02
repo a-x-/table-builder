@@ -30,17 +30,17 @@ Planned: cells data may be modify with callback-prisms (instead of json tag desc
 It works on the Node.js v0.10.24, but i hope that [browserify](//github.com/substack/node-browserify) make in working under any browser.
 
 ```javascript
-var json = "..."; // see above data section
+var json = {/* see data section above */};
 var TableFabric = require('tablebuilder');
 console.log(
     (new TableFabric({'class': 'some-table'}))
         .setHeaders(headers) // see above json headers section
-        .setData(data) // see above json data section
+        .setData(json) // see above json data section
         .render()
 );
 ```
 
-Rendered as:
+Rendered to:
 ```html
 <table class='some-table'>
   <thead> <tr> <th>User name</th> <th>User age</th> <th>Homepage</th> </tr> </thead>
@@ -154,7 +154,6 @@ browserify my-app-using-tableBuilder.js -o bundle.js
 ```
 
 See more about [browserify](http://browserify.org).
-
 
 ## Similar projects
 
