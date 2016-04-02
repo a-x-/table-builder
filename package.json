@@ -26,5 +26,6 @@
   "homepage": "https://github.com/a-x-/table-builder",
   "dependencies": {
     "lodash": "~2.4.1"
-  }
+  },
+  "private": false
 }
