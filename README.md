@@ -141,13 +141,13 @@ If callback is not defined then tableBuilder uses group name without processing,
 // ...
 table
     // ...
-    .render() 
+    .render()
     || 'Data collection is empty!';
 ```
 
 ## Browsers support
 
-Yeah! 
+Yeah!
 
 ```sh
 browserify my-app-using-tableBuilder.js -o bundle.js
@@ -158,11 +158,11 @@ See more about [browserify](http://browserify.org).
 
 ## Similar projects
 
-So, `list.js`. 
+So, `list.js`.
 
-— Can it make tables? 
+— Can it make tables?
 
-— [Yeah, ut can, but...](https://github.com/javve/list.js/issues/272)
+— [Yeah, it can, but...](https://github.com/javve/list.js/issues/272)
 
 — Ok, my library is more specialised and advanced for tables
 
@@ -171,8 +171,3 @@ So, `list.js`.
 * Lo-Dash.
 
 Look [package.json](/package.json) for actual list.
-
-## TODO
-
-## Licence
-All licensed under MIT
