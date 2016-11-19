@@ -22,7 +22,7 @@ Headers filter (remove) not listed fields.
 ```javascript
 var data = {/* see data section above */};
 var headers = { "name" : "User name", "age": "User age", "link": "Homepage" };
-var TableFabric = require('tablebuilder');
+var TableFabric = require('table-builder');
 console.log(
   (new TableFabric({'class': 'some-table'}))
     .setHeaders(headers) // see above json headers section
