@@ -1,3 +1,5 @@
+// tablebuilder.js based on erik@pixeloution.com work
+
 module.exports = (function () {
     var
         _ = require('lodash'),
@@ -310,5 +312,4 @@ module.exports = (function () {
         return this.tableHtml;
     };
     return TableBuilder;
-// tablebuilder.js - erik@pixeloution.com
 }());
