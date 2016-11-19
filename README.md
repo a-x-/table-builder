@@ -3,7 +3,13 @@ table-builder
 
 Create HTML tables from a specific Javascript object structure.
 
-## Example Data
+## Getting Started
+It works on the Node.js v0.10+, and under browsers via [browserify](//github.com/substack/node-browserify).
+
+Result table cells' order provided by headers order.
+Headers filter (remove) not listed fields.
+
+#### Simple Example
 
 Each object represents one row in the data array.
 ```json
@@ -13,11 +19,6 @@ Each object represents one row in the data array.
   { "name":"Daffy Duck", "age":75, "link": "" }
 ]
 ```
-## Getting Started
-It works on the Node.js v0.10+, and under browsers via [browserify](//github.com/substack/node-browserify).
-
-Result table cells' order provided by headers order.
-Headers filter (remove) not listed fields.
 
 ```javascript
 var data = {/* see data section above */};
@@ -54,6 +55,37 @@ Rendered to:
   </tbody>
 </table>
 ```
+
+#### Example of simple scrapper with tablebuilder result representation
+
+```js
+const process = require('process')
+const TableBuilder = require('table-builder')
+    const table = new TableBuilder({class: 'avito'})
+    const headers = {price: 'Price', title: 'Title'}
+const thrw = require('throw')
+const fetch = require('isomorphic-fetch')
+    const getHttp = (uri) => fetch(uri).then(r => r.status >= 400 ? thrw (r.status) : r.text())
+const parseHtml = html => require('jsdom').jsdom(html)
+
+const uri = process.argv[2] || 'https://www.avito.ru/moskva/telefony/iphone?q=iphone+se'
+
+const retreiveData = (document) => Array.from(document.querySelectorAll('.js-catalog_after-ads .item')).map(i=>({title:i.querySelector('.title'), price:i.querySelector('.about')})).map(({title,price})=>({title:title.textContent.trim(),price:price.textContent.trim()}))
+
+const main = () =>
+    getHttp(uri)
+    .then(html => parseHtml(html))
+    .then(document => retreiveData(document))
+    .then(data => table.setHeaders(headers).setData(data).render())
+
+const style = `<style>body { text-align: center; } .avito {width: 100%;} thead { text-align: left; } .price-td { text-align: right; }</style>`
+main().then(r=>console.log(style, r))
+```
+
+![example result](https://cloud.githubusercontent.com/assets/6201068/20455981/216d347c-ae7a-11e6-83bf-572d410ef6e8.png)
+
+
+## API
 
 #### Prisms
 Prism are callbacks-preprocessors for specified fields.
