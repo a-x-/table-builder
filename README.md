@@ -3,6 +3,16 @@ table-builder [![Build Status](https://travis-ci.org/a-x-/table-builder.svg?bran
 
 Create HTML tables from a JSON in a both Node.js (0.10+) and browsers enviroments.
 
+#### Installation
+
+`yarn add --production table-builder`
+
+or
+
+`npm i --production table-builder`
+
+`--production` flag skips devDependencies of the table-builder (testing framework).
+
 #### Simple Example
 
 Each object represents one row in the data array.
