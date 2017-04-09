@@ -5,13 +5,31 @@ Create HTML tables from a JSON in a both Node.js (0.10+) and browsers enviroment
 
 #### Installation
 
-`yarn add --production table-builder`
+```sh
+yarn add --production table-builder
+```
 
 or
 
-`npm i --production table-builder`
+```sh
+npm i --production table-builder
+```
 
 `--production` flag skips devDependencies of the table-builder (testing framework).
+
+#### Usage
+
+##### node.js and webpack
+```js
+import TableBuilder from 'table-builder'
+```
+
+##### browser (without build tool)
+1. Copy built UMD module:
+   `cp node_modules/table-builder/tablebuilder.js dist/tablebuilder.js`
+
+2. Insert tag:
+   `<script src="/dist/tablebuilder.js"></script>`
 
 #### Simple Example
 
@@ -188,7 +206,7 @@ You can use [list.js](https://github.com/javve/list.js) with table builder.
 * [ ] Run building and another activity only in the render() method, push intermediate methods into preordered list
 * [ ] Internal type constructors with asserts
 * [ ] Data model, changing/accessing data api
-  * [ ] Client-side filters, multisorts
+* [ ] Client-side filters, multisorts
 * [ ] Plural versions of methods: `setPrisms`, `setTotals`
 * [ ] Plugins system (call hooks for different cells)
 * [ ] N/A maps
