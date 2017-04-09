@@ -1,6 +1,6 @@
 {
   "name": "table-builder",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Create HTML-tables from JSON",
   "main": "index.js",
   "scripts": {
