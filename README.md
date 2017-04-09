@@ -1,4 +1,4 @@
-table-builder
+table-builder [![Build Status](https://travis-ci.org/a-x-/table-builder.svg?branch=master)](https://travis-ci.org/a-x-/table-builder)
 ============
 
 Create HTML tables from a JSON in a both Node.js (0.10+) and browsers enviroments.
