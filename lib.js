@@ -99,7 +99,9 @@ var lib = module.exports = {
     getTotals: function (headers, rows, totalsFnCollection) {
         return headers.map(function (header) {
             var columnName = header[0];
-            var columnCells = rows.map(row => row.reduce((res, cell) => cell[0] === columnName ? cell[1].raw : res));
+            var columnCells = rows.map(function(row) {
+                return row.reduce(function (res, cell) { return cell[0] === columnName ? cell[1].raw : res; });
+            });
             var calcTotal = function () { return ''; }
 
             // same totals for all headers
@@ -146,6 +148,6 @@ var lib = module.exports = {
     },
 
     deletedByKey: function (pairs, key) {
-        return pairs.filter(tuple => tuple[0] !== key)
+        return pairs.filter(function(tuple) { return tuple[0] !== key; })
     }
 };
