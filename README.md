@@ -1,7 +1,7 @@
 table-builder
 ============
 
-Create HTML tables from a JSON in a both Node.js (0.10+) and browsers enviroment.
+Create HTML tables from a JSON in a both Node.js (0.10+) and browsers enviroments.
 
 #### Simple Example
 
@@ -15,7 +15,7 @@ Each object represents one row in the data array.
 ```
 
 ```javascript
-var data = {/* see data section above */};
+var data = [/* see data section above */];
 
 // You can put key-value pairs if you strongly want keep headers order:
 // [['name', 'User name'], ['age', 'User age'], ['link', 'Homepage']]
@@ -172,8 +172,18 @@ You can use [list.js](https://github.com/javve/list.js) with table builder.
 
 ## TODO
 
-- Unit tests
-- Escaping
+* [x] Unit tests, CI
+* [x] Decompose methods
+* [ ] More unit tests
+* [ ] Run building and another activity only in the render() method, push intermediate methods into preordered list
+* [ ] Internal type constructors with asserts
+* [ ] Data model, changing/accessing data api
+  * [ ] Client-side filters, multisorts
+* [ ] Plural versions of methods: `setPrisms`, `setTotals`
+* [ ] Plugins system (call hooks for different cells)
+* [ ] N/A maps
+* [ ] Escaping
+* [ ] `tagBuilder` as a dependency injection (for compatibility with either: `innerHTML`, `createElement`, `React.Component`)
 
 ## See also better React based solutions
 
