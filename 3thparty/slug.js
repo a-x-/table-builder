@@ -3,7 +3,7 @@ module.exports = (function Slug () {
     return function(word) {
         return word.split('').map(function(char){
             var lo = char.toLowerCase();
-            return lo in map ? map[lo] : (lo >= 'a' && lo <= 'z' ? lo : '-');
+            return lo in map ? map[lo] : (lo >= 'a' && lo <= 'z' || lo >= '0' && lo <= '9' ? lo : '-');
         }).join('').replace(/-+/g, '-');
     }
 })();
