@@ -1,4 +1,4 @@
-module.exports = (function () {
+var TableBuilder = (function () {
     var
         TableBuilder,
         mapObj = require('./3thparty/mapobj'),
@@ -142,3 +142,6 @@ module.exports = (function () {
 
     return TableBuilder;
 }());
+
+if (typeof module !== 'undefined') module.exports = TableBuilder;
+else if (typeof window !== 'undefined') window.TableBuilder = TableBuilder;
