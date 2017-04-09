@@ -1,6 +1,5 @@
 module.exports = (function () {
     var
-        static,
         TableBuilder,
         mapObj = require('./3thparty/mapobj'),
         toPairs = require('./3thparty/topairs'),
