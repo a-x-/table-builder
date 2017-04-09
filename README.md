@@ -1,13 +1,7 @@
 table-builder
 ============
 
-Create HTML tables from a specific Javascript object structure.
-
-## Getting Started
-It works on the Node.js v0.10+, and under browsers via [browserify](//github.com/substack/node-browserify).
-
-Result table cells' order provided by headers order.
-Headers filter (remove) not listed fields.
+Create HTML tables from a JSON in a both Node.js (0.10+) and browsers enviroment.
 
 #### Simple Example
 
@@ -22,10 +16,14 @@ Each object represents one row in the data array.
 
 ```javascript
 var data = {/* see data section above */};
+
+// You can put key-value pairs if you strongly want keep headers order:
+// [['name', 'User name'], ['age', 'User age'], ['link', 'Homepage']]
 var headers = { "name" : "User name", "age": "User age", "link": "Homepage" };
-var TableFabric = require('table-builder');
+
+var Table = require('table-builder');
 console.log(
-  (new TableFabric({'class': 'some-table'}))
+  (new Table({'class': 'some-table'}))
     .setHeaders(headers) // see above json headers section
     .setData(data) // see above json data section
     .render()
@@ -97,7 +95,7 @@ var data = [ // Look the previous case differences: link format changed and name
   { "firstname":"Daffy", "surname":"Duck", "age":75, "link": "" }
 ];
 
-(new TableFabric({'class': 'some-table'}))
+(new Table({'class': 'some-table'}))
   .setPrism('link', function (cellData) {
     return cellData && '<a href="http://'+cellData+'">'+cellData+'</a>' || 'N/A';
   })
@@ -168,26 +166,15 @@ table
   || 'Data collection is empty!';
 ```
 
-## Browsers support
+## Client side sorting, filtering
 
-Yeah!
-
-```sh
-browserify my-app-using-tableBuilder.js -o bundle.js
-```
-
-See more about [browserify](http://browserify.org).
-
-## Similar projects
-
-So, `list.js`.
-
-— Can it make tables?
-
-— [Yeah, it can, but...](https://github.com/javve/list.js/issues/272)
-
-— Ok, my library is more specialised and advanced for tables
+You can use [list.js](https://github.com/javve/list.js) with table builder.
 
 ## TODO
+
 - Unit tests
 - Escaping
+
+## See also better React based solutions
+
+* [react-data-grid](https://github.com/adazzle/react-data-grid)
