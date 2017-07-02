@@ -204,15 +204,22 @@ You can use [list.js](https://github.com/javve/list.js) with table builder.
 * [x] Decompose methods
 * [ ] More unit tests
 * [ ] Run building and another activity only in the render() method, push intermediate methods into preordered list
+* [ ] Framefork agnostic: possibility to use with React and another frameworks
+  * `tagBuilder` as a dependency injection (for compatibility with either: `innerHTML`, `createElement`, `React.Component`)
 * [ ] Internal type constructors with asserts
 * [ ] Data model, changing/accessing data api
-* [ ] Client-side filters, multisorts
+* [ ] Client-side filters, multisort  s
 * [ ] Plural versions of methods: `setPrisms`, `setTotals`
 * [ ] Plugins system (call hooks for different cells)
 * [ ] N/A maps
 * [ ] Escaping
-* [ ] `tagBuilder` as a dependency injection (for compatibility with either: `innerHTML`, `createElement`, `React.Component`)
 
-## See also better React based solutions
+## See also another solutions
 
-* [react-data-grid](https://github.com/adazzle/react-data-grid)
+**React based**:
+* [react-data-grid](https://github.com/adazzle/react-data-grid) - I did not use it stil
+* [react-table](https://github.com/tannerlinsley/react-table) - I revealed problems with custom styles and stbility
+* _suggestions are welcome_
+
+**Framework agnostic**:
+* _suggestions are welcome_
