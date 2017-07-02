@@ -14,12 +14,28 @@ const simple = {
     refHtml: read('./test-assets/simple.html')
 };
 
-it('should build simple table', t => {
+it('should build simple table with footers', t => {
     const html = (new Table({'class': 'some-table'}))
         .setHeaders(simple.headersObj)
         .setData(simple.data)
+        .setTotal('age', function (columnCellsCollection, rowsCollection) {
+          // Calc average age
+          return Math.round(columnCellsCollection.reduce(function (prev, val) { return +prev + val; }) / columnCellsCollection.length);
+        })
         .render();
     const diff = htmlDiff(simple.refHtml, html);
     diff ? t.fail('There is html diff') : t.pass('Html is ok');
     diff && console.log(diff);
+});
+
+
+it('should build simple table without footers', t => {
+  simple.refHtml = read('./test-assets/simple-no-footer.html')
+  const html = (new Table({'class': 'some-table'}))
+      .setHeaders(simple.headersObj)
+      .setData(simple.data)
+      .render();
+  const diff = htmlDiff(simple.refHtml, html);
+  diff ? t.fail('There is html diff') : t.pass('Html is ok');
+  diff && console.log(diff);
 });

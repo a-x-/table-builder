@@ -87,7 +87,12 @@ var lib = module.exports = {
         var content = lib.getTotals(headers, rows, totalsFn).map(function (tdValue) {
             return tag('td', {}, tdValue);
         });
-        return '<tfoot><tr>' + content.join('') + '</tr></tfoot>';
+        // check if there is a totals function, only return footer if required
+        if (Object.keys(totalsFn) < 1) {
+          return '';
+        } else {
+          return '<tfoot><tr>' + content.join('') + '</tr></tfoot>';
+        }
     },
 
     /**
