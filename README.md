@@ -208,17 +208,21 @@ You can use [list.js](https://github.com/javve/list.js) with table builder.
   * `tagBuilder` as a dependency injection (for compatibility with either: `innerHTML`, `createElement`, `React.Component`)
 * [ ] Internal type constructors with asserts
 * [ ] Data model, changing/accessing data api
-* [ ] Client-side filters, multisort  s
+* [ ] Client-side filters, multisort
 * [ ] Plural versions of methods: `setPrisms`, `setTotals`
 * [ ] Plugins system (call hooks for different cells)
 * [ ] N/A maps
 * [ ] Escaping
+* [ ] Complex 2-level headers feature
+* [ ] Sticky headers feature
+* [ ] Vertical header feature
+* [ ] Simplify prisms api: callback must returns presentation data only instead of `{raw, presentation}`
 
 ## See also another solutions
 
 **React based**:
-* [react-data-grid](https://github.com/adazzle/react-data-grid) - I did not use it stil
-* [react-table](https://github.com/tannerlinsley/react-table) - I revealed problems with custom styles and stbility
+* [react-data-grid](https://github.com/adazzle/react-data-grid) - I did not use it still
+* [react-table](https://github.com/tannerlinsley/react-table) - I revealed problems with custom styles and stability
 * _suggestions are welcome_
 
 **Framework agnostic**:
